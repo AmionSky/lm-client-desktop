@@ -1,0 +1,74 @@
+.media-details-grid {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: row;
+}
+
+.media-details-left {
+    overflow: hidden;
+    display: flex;
+    flex: 0 0 auto;
+    width: 35%;
+}
+
+.media-details-cover {
+    height: 100%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+    background-position: center;
+}
+
+.media-details-cover-shadow {
+    position: absolute;
+    left: 0px;
+    background: linear-gradient(to left,
+        rgba(51, 53, 64, 1.000) 0%,
+        rgba(51, 53, 64, 0.738) 19%,
+        rgba(51, 53, 64, 0.541) 34%,
+        rgba(51, 53, 64, 0.382) 47%,
+        rgba(51, 53, 64, 0.278) 56.5%,
+        rgba(51, 53, 64, 0.194) 65%,
+        rgba(51, 53, 64, 0.126) 73%,
+        rgba(51, 53, 64, 0.075) 80.2%,
+        rgba(51, 53, 64, 0.042) 86.1%,
+        rgba(51, 53, 64, 0.021) 91%,
+        rgba(51, 53, 64, 0.008) 95.2%,
+        rgba(51, 53, 64, 0.002) 98.2%,
+        rgba(51, 53, 64, 0.000) 100%
+    );
+    width: 35%;
+    height: calc(100% - 32px);
+}
+
+.media-details-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+
+.media-item-container {
+    display: flex;
+    flex: 0 0 auto;
+    margin-bottom: 10px;
+    align-items: center;
+    background-color: #474a59;
+    border: 5px solid #474a59;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+    transition: background-color 0.1s, border-color 0.1s;
+}
+
+.media-item-container:hover {
+    background-color: #666a80;
+    border-color: #666a80;
+}
+

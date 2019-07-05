@@ -1,0 +1,6 @@
+{
+    "name": "shared-media-browser",
+    "productName": "Shared Media Browser",
+    "version": "1.0.0",
+    "main": "main/main.js"
+}

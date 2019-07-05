@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="renderer.js"></script>
+</head>
+
+<body>
+    <div id="window-titlebar">
+        <div class="titlebar-back" id="nav-back">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 192 192"
+                style=" fill:#000000;">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,192v-192h192v192z" fill="none"></path>
+                    <g fill="#ffffff">
+                        <path
+                            d="M80,39.4375l-56.5625,56.5625l56.5625,56.5625l12,-12l-36.5625,-36.5625h112.5625v-16h-112.5625l36.5625,-36.5625z">
+                        </path>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        <div id="window-title">Shared Media Browser</div>
+        <div class="titlebar-button" id="window-minimize-button">
+            <svg height="10" width="10">
+                <line x1="0" y1="5" x2="10" y2="5" style="stroke:white;stroke-width:2;" />
+            </svg>
+        </div>
+        <div class="titlebar-button" id="window-maximize-button">
+            <svg height="10" width="10">
+                <rect width="10" height="10" style="stroke:white;stroke-width:2;fill-opacity:0;" />
+            </svg>
+        </div>
+        <div class="titlebar-button" id="window-close-button">
+            <svg height="10" width="10">
+                <line x1="0" y1="0" x2="10" y2="10" style="stroke:white;stroke-width:1;" />
+                <line x1="10" y1="0" x2="0" y2="10" style="stroke:white;stroke-width:1;" />
+            </svg>
+        </div>
+    </div>
+    <div id="window-content"></div>
+</body>
+
+</html>
