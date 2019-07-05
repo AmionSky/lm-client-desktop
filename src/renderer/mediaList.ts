@@ -5,7 +5,7 @@ import { onFetchError } from "./error";
 require("./mediaList.css");
 
 export async function showMediaList() {
-    const text = await getTextFromUrl(requestUrl).catch(() => undefined);
+    const text: string = await getTextFromUrl(requestUrl).catch(() => undefined);
 
     if (text == undefined) {
         onFetchError();

@@ -5,7 +5,7 @@ import { startPlayer } from "./player";
 require("./mediaDetails.css");
 
 export async function showMediaDetails(mediaID: string) {
-    const text = await getTextFromUrl(requestUrl + mediaID).catch(() => undefined);
+    const text: string = await getTextFromUrl(requestUrl + mediaID).catch(() => undefined);
 
     if (text == undefined) {
         onFetchError();
