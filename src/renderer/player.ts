@@ -1,17 +1,17 @@
+import { getVideoUrl, getSubUrl } from "./common";
 import * as fs from "fs";
 import * as temp from "temp";
 import open from "open";
 
-export async function startPlayer(uriBase: string, file: string) {
-    let sub = await getSub(uriBase + "sub/" + file);
-    let vuri = uriBase + file;
+export async function startPlayer(groupId: string, videoName: string) {
+    let sub = await getSub(getSubUrl(groupId, videoName));
 
     let app = ["vlc"];
     if (sub) {
         app.push("--sub-file=" + sub);
     }
 
-    await open(vuri, { app: app });
+    await open(getVideoUrl(groupId, videoName), { app: app });
 }
 
 async function getSub(uri: string): Promise<string> {

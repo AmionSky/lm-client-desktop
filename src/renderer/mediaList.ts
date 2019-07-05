@@ -1,43 +1,62 @@
-import { replacePage, requestUrl, getTextFromUrl, getCoverUrl } from "./common";
-import { showMediaDetails } from "./mediaDetails";
+import { replacePage, requestUrl, getJsonFromUrl, getCoverUrl } from "./common";
+import { showMediaGroup } from "./mediaGroup";
 import { onFetchError } from "./error";
 
 require("./mediaList.css");
 
-export async function showMediaList() {
-    const text: string = await getTextFromUrl(requestUrl).catch(() => undefined);
+interface IndexResponse {
+    media_list: IndexListItem[],
+}
 
-    if (text == undefined) {
+interface IndexListItem {
+    uid: string,
+    name: string,
+}
+
+export async function showMediaList() {
+    // Get the response from server
+    const json: IndexResponse = await getJsonFromUrl(requestUrl).catch(() => undefined);
+
+    // Verify the response
+    if (json == undefined) {
         onFetchError();
         return;
     }
 
+    // Create page
     const listElement = document.createElement("div");
     listElement.className = "media-list-container";
 
-    const lines = text.trim().split("\n");
-    for (const line of lines) {
-        const elem = createMediaListItem(line.trim());
+    json.media_list.sort((a, b) => {
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) { return -1; }
+        if (x > y) { return 1; }
+        return 0;
+    });
+
+    for (const item of json.media_list) {
+        const elem = createMediaListItem(item);
         listElement.appendChild(elem);
     }
 
     replacePage(listElement);
 }
 
-function createMediaListItem(mediaID: string) {
+function createMediaListItem(item: IndexListItem) {
     const container = document.createElement("div");
     container.className = "media-listitem-container";
     container.addEventListener("click", () => {
-        showMediaDetails(mediaID);
+        showMediaGroup(item.uid);
     });
 
     const coverImage = document.createElement("img");
-    coverImage.src = getCoverUrl(mediaID);
+    coverImage.src = getCoverUrl(item.uid);
     coverImage.className = "media-listitem-cover";
     container.appendChild(coverImage);
 
     const title = document.createElement("span");
-    title.textContent = decodeURI(mediaID).trim();
+    title.textContent = item.name
     title.className = "media-listitem-title";
     container.appendChild(title);
 

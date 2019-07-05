@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from "electron";
+import { globalShortcut } from "electron";
 import * as path from "path";
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
@@ -23,7 +24,7 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, "../static/index.html"));
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+    devTools(mainWindow);
 
     // Emitted when the window is closed.
     mainWindow.on("closed", () => {
@@ -55,3 +56,9 @@ app.on("activate", () => {
         createWindow();
     }
 });
+
+function devTools(window: BrowserWindow) {
+    globalShortcut.register("CommandOrControl+F12", () => {
+        window.webContents.openDevTools();
+    });
+}

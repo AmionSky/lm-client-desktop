@@ -1,10 +1,10 @@
-.media-details-grid {
+.media-group-grid {
     display: flex;
     flex: 1 1 auto;
     flex-direction: row;
 }
 
-.media-details-left {
+.media-group-left {
     overflow: hidden;
     display: flex;
     flex: 0 0 auto;
@@ -12,7 +12,7 @@
     height: 100%;
 }
 
-.media-details-cover {
+.media-group-cover {
     height: 100%;
     overflow: hidden;
     object-fit: cover;
@@ -20,7 +20,7 @@
     background-position: center;
 }
 
-.media-details-cover-shadow {
+.media-group-cover-shadow {
     position: absolute;
     left: 0px;
     background: linear-gradient(to left,
@@ -42,7 +42,7 @@
     height: calc(100% - 32px);
 }
 
-.media-details-list {
+.media-group-list {
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
