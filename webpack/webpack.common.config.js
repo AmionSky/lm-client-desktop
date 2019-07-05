@@ -1,5 +1,5 @@
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const node = "12.0.0";
 const chrome = "73";
@@ -18,7 +18,7 @@ exports.mainConfig = {
     entry: './src/main/main.ts',
     output: {
         filename: 'main.js',
-        path: path.resolve(__dirname, 'dist/main')
+        path: path.resolve('dist/main')
     },
     target: 'electron-main',
     module: {
@@ -51,7 +51,7 @@ exports.rendererConfig = {
     entry: './src/renderer/index.ts',
     output: {
         filename: 'renderer.js',
-        path: path.resolve(__dirname, 'dist/renderer')
+        path: path.resolve('dist/renderer')
     },
     target: 'electron-renderer',
     module: {
@@ -79,20 +79,13 @@ exports.rendererConfig = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.ttf$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: '[name].[ext]',
-                        outputPath: 'fonts/'
-                    }
-                }]
             }
         ]
     },
     plugins: [
-        new CopyWebpackPlugin([{ from: 'src/static/' }], {})
-    ]
+        new CopyPlugin([
+            { from: 'src/static/', to: '../static/' },
+            { from: 'src/fonts/', to: '../fonts/' }
+        ]),
+    ],
 }

@@ -2,10 +2,7 @@ import { showMediaList } from "./mediaList";
 import { removeTempFiles } from "./player";
 import { remote } from "electron";
 
-require("./fonts.css");
 require("./index.css");
-require("./titlebar.css");
-require("./scrollbar.css");
 
 window.onload = () => {
     document.getElementById("window-title").innerText = getWindowTitle();

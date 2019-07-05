@@ -9,6 +9,7 @@
     display: flex;
     flex: 0 0 auto;
     width: 35%;
+    height: 100%;
 }
 
 .media-details-cover {
