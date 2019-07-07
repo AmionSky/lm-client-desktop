@@ -20,38 +20,37 @@ export async function showMediaGroup(groupId: string) {
         return;
     }
 
-
     const grid = document.createElement("div");
-    grid.className = "media-group-grid";
+    grid.appendChild(createCoverDisplay(groupId));
+    grid.appendChild(createVideoList(groupId, json.videos));
+    grid.id = "mg-grid";
+    replacePage(grid);
+}
 
-    const leftContainer = document.createElement("div");
-    leftContainer.className = "media-group-left";
-    leftContainer.appendChild(createCoverElement(groupId));
-    leftContainer.appendChild(createShadowElement());
-    grid.appendChild(leftContainer);
-
+function createVideoList(groupId: string, videos: VideoDetails[]) {
     const listElement = document.createElement("div");
-    listElement.className = "media-group-list";
+    listElement.id = "mg-videos";
 
-    for (let i = 0; i < json.videos.length; i++) {
-        const elem = createMediaItem(i, groupId, json.videos[i]);
+    // TODO: sort videos
+
+    for (let i = 0; i < videos.length; i++) {
+        const elem = createMediaItem(i, groupId, videos[i]);
         listElement.appendChild(elem);
     }
 
-    grid.appendChild(listElement);
-    replacePage(grid);
+    return listElement;
 }
 
 function createMediaItem(index: number, groupId: string, details: VideoDetails) {
     const container = document.createElement("div");
-    container.className = "media-item-container";
+    container.className = "mg-videos-item";
     container.addEventListener("click", () => {
         startPlayer(groupId, details.name);
     });
 
     const title = document.createElement("span");
     title.textContent = getTitle(index, details.name);
-    title.className = "media-item-title";
+    title.className = "title";
     container.appendChild(title);
 
     return container;
@@ -66,15 +65,23 @@ function getTitle(index: number, videoName: string) {
     return (index + 1) + ". " + title;
 }
 
+function createCoverDisplay(groupId: string) {
+    const leftContainer = document.createElement("div");
+    leftContainer.appendChild(createCoverElement(groupId));
+    leftContainer.appendChild(createShadowElement());
+    leftContainer.id = "mg-cover";
+    return leftContainer;
+}
+
 function createCoverElement(groupId: string) {
     const coverImage = document.createElement("img");
     coverImage.src = getCoverUrl(groupId);
-    coverImage.className = "media-group-cover";
+    coverImage.id = "mg-cover-img";
     return coverImage;
 }
 
 function createShadowElement() {
     const shadow = document.createElement("div");
-    shadow.className = "media-group-cover-shadow";
+    shadow.id = "mg-cover-shadow";
     return shadow;
 }
