@@ -1,6 +1,6 @@
 import urljoin from "url-join";
 
-export const requestUrl = "http://localhost:8000/";
+export const requestUrl = "http://192.168.1.101:11277/";
 
 export async function getJsonFromUrl(url: string): Promise<any> {
     return fetch(url).then(res => {
