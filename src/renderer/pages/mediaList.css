@@ -1,4 +1,4 @@
-.media-list-container {
+#ml-grid {
     display: grid;
     grid-template-columns: repeat( auto-fit, 250px );
     grid-gap: 10px;
@@ -7,7 +7,7 @@
     align-content: start;
 }
 
-.media-listitem-container {
+.ml-groupitem {
     width: 250px;
     height: 375px;
     background-color: #474a59;
@@ -18,18 +18,18 @@
     transition: background-color 0.1s;
 }
 
-.media-listitem-container:hover {
+.ml-groupitem:hover {
     background-color: #666a80;
 }
 
-.media-listitem-cover {
+.ml-groupitem>.cover {
     width: 100%;
     height: 85%;
     object-fit: cover;
     object-position: center;
 }
 
-.media-listitem-title {
+.ml-groupitem>.title {
     display: flex;
     flex: 1 1 auto;
     margin: 5px;

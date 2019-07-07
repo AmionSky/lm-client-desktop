@@ -25,8 +25,9 @@ export async function showMediaList() {
 
     // Create page
     const listElement = document.createElement("div");
-    listElement.className = "media-list-container";
+    listElement.id = "ml-grid";
 
+    // Sort media groups alphabetically
     json.media_list.sort((a, b) => {
         let x = a.name.toLowerCase();
         let y = b.name.toLowerCase();
@@ -35,6 +36,7 @@ export async function showMediaList() {
         return 0;
     });
 
+    // create items
     for (const item of json.media_list) {
         const elem = createMediaListItem(item);
         listElement.appendChild(elem);
@@ -45,19 +47,19 @@ export async function showMediaList() {
 
 function createMediaListItem(item: IndexListItem) {
     const container = document.createElement("div");
-    container.className = "media-listitem-container";
+    container.className = "ml-groupitem";
     container.addEventListener("click", () => {
         showMediaGroup(item.uid);
     });
 
     const coverImage = document.createElement("img");
     coverImage.src = getCoverUrl(item.uid);
-    coverImage.className = "media-listitem-cover";
+    coverImage.className = "cover";
     container.appendChild(coverImage);
 
     const title = document.createElement("span");
     title.textContent = item.name
-    title.className = "media-listitem-title";
+    title.className = "title";
     container.appendChild(title);
 
     return container;
