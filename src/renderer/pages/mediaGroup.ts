@@ -1,6 +1,6 @@
-import { replacePage, getJsonFromUrl, getCoverUrl, getGroupUrl } from "./common";
+import { replacePage, getJsonFromUrl, getCoverUrl, getGroupUrl } from "../common";
 import { onFetchError } from "./error";
-import { startPlayer } from "./player";
+import { startPlayer } from "../player";
 
 require("./mediaGroup.css");
 

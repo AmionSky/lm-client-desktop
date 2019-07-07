@@ -1,4 +1,4 @@
-import { showMediaList } from "./mediaList";
+import { showMediaList } from "./pages/mediaList";
 import { removeTempFiles } from "./player";
 import { remote } from "electron";
 

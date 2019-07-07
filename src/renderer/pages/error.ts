@@ -1,4 +1,4 @@
-import { clearHtml, replacePage } from "./common";
+import { clearHtml, replacePage } from "../common";
 
 require("./error.css");
 

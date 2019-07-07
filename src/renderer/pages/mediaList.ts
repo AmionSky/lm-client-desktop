@@ -1,4 +1,4 @@
-import { replacePage, requestUrl, getJsonFromUrl, getCoverUrl } from "./common";
+import { replacePage, requestUrl, getJsonFromUrl, getCoverUrl } from "../common";
 import { showMediaGroup } from "./mediaGroup";
 import { onFetchError } from "./error";
 
