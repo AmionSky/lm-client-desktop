@@ -62,10 +62,16 @@
     border: 5px solid #474a59;
     border-radius: 5px;
     padding-left: 10px;
+    padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
     color: white;
     transition: background-color 0.1s, border-color 0.1s;
+}
+
+.media-item-container>span {
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .media-item-container:hover {
