@@ -15,7 +15,8 @@
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
       },
       "args": [
-        "."
+        ".",
+        "--no-sandbox"
       ],
       "console": "internalConsole",
       "sourceMaps": true
@@ -30,7 +31,8 @@
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
       },
       "args": [
-        "."
+        ".",
+        "--no-sandbox"
       ],
       "console": "internalConsole",
       "sourceMaps": true
