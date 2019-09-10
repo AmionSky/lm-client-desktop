@@ -68,17 +68,9 @@ function getTitle(index: number, videoName: string) {
 function createCoverDisplay(groupId: string) {
     const leftContainer = document.createElement("div");
     leftContainer.style.backgroundImage = "url(\"" + getCoverUrl(groupId) + "\")";
-    //leftContainer.appendChild(createCoverElement(groupId));
     leftContainer.appendChild(createShadowElement());
     leftContainer.id = "mg-cover";
     return leftContainer;
-}
-
-function createCoverElement(groupId: string) {
-    const coverImage = document.createElement("img");
-    coverImage.src = getCoverUrl(groupId);
-    coverImage.id = "mg-cover-img";
-    return coverImage;
 }
 
 function createShadowElement() {
