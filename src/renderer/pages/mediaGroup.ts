@@ -54,8 +54,14 @@ function createMediaItem(index: number, groupId: string, details: VideoDetails) 
     });
     container.onmousedown = (event) => {
         if (event.which == 3) {
-            store.delete(watched(groupId, index));
-            container.className = "mg-videos-item";
+            if (isWatched(groupId, index)) {
+                store.delete(watched(groupId, index));
+                container.className = "mg-videos-item";
+            } else {
+                store.set(watched(groupId, index), true);
+                container.className = "mg-videos-item mg-videos-item-watched";
+            }
+
         }
     }
 
