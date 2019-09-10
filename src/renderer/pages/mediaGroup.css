@@ -9,18 +9,9 @@
     overflow: hidden;
     width: 35%;
     height: calc(100% - 32px);
-
     background-position: center;
     background-repeat: no-repeat;
     background-size: auto 100%;
-}
-
-#mg-cover>#mg-cover-img {
-    height: calc(100% - 32px);
-    overflow: hidden;
-    object-fit: cover;
-    object-position: center;
-    background-position: center;
 }
 
 #mg-cover>#mg-cover-shadow {
