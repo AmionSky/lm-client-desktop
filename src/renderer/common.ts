@@ -12,9 +12,13 @@ export async function getJsonFromUrl(url: string): Promise<any> {
     });
 }
 
-export function replacePage(to: HTMLElement) {
+export function replacePage(to: HTMLElement, scrollPosition?: number) {
     clearHtml();
     getRoot().appendChild(to);
+
+    if (scrollPosition != undefined) {
+        getRoot().scrollTo(0, scrollPosition);
+    }
 }
 
 export function getRoot() {

@@ -24,7 +24,7 @@ export async function showMediaGroup(groupId: string) {
     grid.appendChild(createCoverDisplay(groupId));
     grid.appendChild(createVideoList(groupId, json.videos));
     grid.id = "mg-grid";
-    replacePage(grid);
+    replacePage(grid, 0);
 }
 
 function createVideoList(groupId: string, videos: VideoDetails[]) {

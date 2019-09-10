@@ -1,8 +1,11 @@
-import { replacePage, requestUrl, getJsonFromUrl, getCoverUrl } from "../common";
+import { replacePage, requestUrl, getJsonFromUrl, getCoverUrl, getRoot } from "../common";
 import { showMediaGroup } from "./mediaGroup";
 import { onFetchError } from "./error";
 
 require("./mediaList.css");
+
+// Saved vertical scroll position
+let scrollPosition = 0;
 
 interface IndexResponse {
     media_list: IndexListItem[],
@@ -42,13 +45,14 @@ export async function showMediaList() {
         listElement.appendChild(elem);
     }
 
-    replacePage(listElement);
+    replacePage(listElement, scrollPosition);
 }
 
 function createMediaListItem(item: IndexListItem) {
     const container = document.createElement("div");
     container.className = "ml-groupitem";
     container.addEventListener("click", () => {
+        scrollPosition = getRoot().scrollTop;
         showMediaGroup(item.uid);
     });
 
