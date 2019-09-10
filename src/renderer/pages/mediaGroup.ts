@@ -1,8 +1,11 @@
 import { replacePage, getJsonFromUrl, getCoverUrl, getGroupUrl } from "../common";
 import { onFetchError } from "./error";
 import { startPlayer } from "../player";
+import electronStore from "electron-store";
 
 require("./mediaGroup.css");
+
+const store = new electronStore();
 
 interface GroupResponse {
     videos: VideoDetails[],
@@ -42,11 +45,23 @@ function createVideoList(groupId: string, videos: VideoDetails[]) {
 }
 
 function createMediaItem(index: number, groupId: string, details: VideoDetails) {
-    const container = document.createElement("div");
+    const container = document.createElement("button");
     container.className = "mg-videos-item";
     container.addEventListener("click", () => {
+        store.set(watched(groupId, index), true);
+        container.className = "mg-videos-item mg-videos-item-watched";
         startPlayer(groupId, details.name);
     });
+    container.onmousedown = (event) => {
+        if (event.which == 3) {
+            store.delete(watched(groupId, index));
+            container.className = "mg-videos-item";
+        }
+    }
+
+    if (isWatched(groupId, index)) {
+        container.className += " mg-videos-item-watched";
+    }
 
     const title = document.createElement("span");
     title.textContent = getTitle(index, details.name);
@@ -77,4 +92,12 @@ function createShadowElement() {
     const shadow = document.createElement("div");
     shadow.id = "mg-cover-shadow";
     return shadow;
+}
+
+function watched(groupId: string, index: number) {
+    return "watched." + groupId + "." + index;
+}
+
+function isWatched(groupId: string, index: number) {
+    return store.get(watched(groupId, index)) === true;
 }

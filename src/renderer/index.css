@@ -18,3 +18,7 @@ html, body {
     flex-direction: column;
     flex-wrap: nowrap;
 }
+
+button:focus {
+    outline: 0;
+}
