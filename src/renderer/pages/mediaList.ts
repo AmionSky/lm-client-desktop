@@ -1,6 +1,7 @@
 import { replacePage, requestUrl, getJsonFromUrl, getCoverUrl, getRoot } from "../common";
 import { showMediaGroup } from "./mediaGroup";
 import { onFetchError } from "./error";
+import { fetchCoverUrl } from "../themoviedb";
 
 require("./mediaList.css");
 
@@ -11,9 +12,10 @@ interface IndexResponse {
     media_list: IndexListItem[],
 }
 
-interface IndexListItem {
+export interface IndexListItem {
     uid: string,
     name: string,
+    has_cover: boolean,
 }
 
 export async function showMediaList() {
@@ -53,13 +55,18 @@ function createMediaListItem(item: IndexListItem) {
     container.className = "ml-groupitem";
     container.addEventListener("click", () => {
         scrollPosition = getRoot().scrollTop;
-        showMediaGroup(item.uid);
+        showMediaGroup(item);
     });
 
     const coverImage = document.createElement("img");
-    coverImage.src = getCoverUrl(item.uid);
     coverImage.className = "cover";
     container.appendChild(coverImage);
+
+    if (item.has_cover) {
+        coverImage.src = getCoverUrl(item.uid);
+    } else {
+        fetchCoverUrl(item.name, "w342").then((url) => coverImage.src = url);
+    }
 
     const title = document.createElement("span");
     title.textContent = item.name
@@ -68,3 +75,4 @@ function createMediaListItem(item: IndexListItem) {
 
     return container;
 }
+
