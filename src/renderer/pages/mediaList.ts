@@ -7,7 +7,7 @@ require("./mediaList.css");
 
 // Saved vertical scroll position
 let scrollPosition = 0;
-let coverUrls: { [index: string]: string } = {};
+export const coverUrls: { [index: string]: string } = {};
 
 
 interface IndexResponse {
@@ -57,23 +57,32 @@ function createMediaListItem(item: IndexListItem) {
     const container = document.createElement("div");
     container.className = "ml-groupitem";
     container.addEventListener("click", () => {
+        // Save scroll position
         scrollPosition = getRoot().scrollTop;
-        showMediaGroup({ uid: item.uid, cover: coverUrls[item.uid] });
+        // Load other page
+        showMediaGroup(item.uid);
     });
 
+    // Create cover image element
     const coverImage = document.createElement("img");
     coverImage.className = "cover";
     container.appendChild(coverImage);
 
+    // Check cache for cover url
     if (coverUrls[item.uid] == undefined) {
+        // Get url async
         getAnyCoverUrl(item).then((url) => {
+            // Save url to cache
             coverUrls[item.uid] = url;
+            // Set cover image
             coverImage.src = url;
         });
     } else {
+        // Get url from cache and set as image
         coverImage.src = coverUrls[item.uid];
     }
 
+    // Create title text element
     const title = document.createElement("span");
     title.textContent = item.name
     title.className = "title";

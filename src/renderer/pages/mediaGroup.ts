@@ -1,17 +1,13 @@
-import { replacePage, getJsonFromUrl, getCoverUrl, getGroupUrl } from "../common";
+import { replacePage, getJsonFromUrl, getGroupUrl } from "../common";
 import { onFetchError } from "./error";
 import { startPlayer } from "../player";
+import { coverUrls } from "./mediaList";
 import electronStore from "electron-store";
 
 require("./mediaGroup.css");
 
 const store = new electronStore();
 
-
-export interface MediaGroupArgs {
-    uid: string,
-    cover: string,
-}
 
 interface GroupResponse {
     videos: VideoDetails[],
@@ -22,8 +18,8 @@ interface VideoDetails {
 }
 
 
-export async function showMediaGroup(args: MediaGroupArgs) {
-    const json: GroupResponse = await getJsonFromUrl(getGroupUrl(args.uid)).catch(() => undefined);
+export async function showMediaGroup(uid: string) {
+    const json: GroupResponse = await getJsonFromUrl(getGroupUrl(uid)).catch(() => undefined);
 
     if (json == undefined) {
         onFetchError();
@@ -31,8 +27,8 @@ export async function showMediaGroup(args: MediaGroupArgs) {
     }
 
     const grid = document.createElement("div");
-    grid.appendChild(createCoverDisplay(args.cover));
-    grid.appendChild(createVideoList(args.uid, json.videos));
+    grid.appendChild(createCoverDisplay(uid));
+    grid.appendChild(createVideoList(uid, json.videos));
     grid.id = "mg-grid";
     replacePage(grid, 0);
 }
@@ -93,11 +89,16 @@ function getTitle(index: number, videoName: string) {
     return (index + 1) + ". " + title;
 }
 
-function createCoverDisplay(coverUrl: string) {
+function createCoverDisplay(uid: string) {
     const leftContainer = document.createElement("div");
     leftContainer.appendChild(createShadowElement());
-    leftContainer.style.backgroundImage = "url(\"" + coverUrl + "\")";
     leftContainer.id = "mg-cover";
+
+    const coverUrl = coverUrls[uid];
+    if (coverUrl != undefined) {
+        leftContainer.style.backgroundImage = "url(\"" + coverUrl + "\")";
+    }
+
     return leftContainer;
 }
 
