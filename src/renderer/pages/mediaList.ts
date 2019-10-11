@@ -7,16 +7,19 @@ require("./mediaList.css");
 
 // Saved vertical scroll position
 let scrollPosition = 0;
+let coverUrls: { [index: string]: string } = {};
+
 
 interface IndexResponse {
     media_list: IndexListItem[],
 }
 
-export interface IndexListItem {
+interface IndexListItem {
     uid: string,
     name: string,
     has_cover: boolean,
 }
+
 
 export async function showMediaList() {
     // Get the response from server
@@ -55,17 +58,20 @@ function createMediaListItem(item: IndexListItem) {
     container.className = "ml-groupitem";
     container.addEventListener("click", () => {
         scrollPosition = getRoot().scrollTop;
-        showMediaGroup(item);
+        showMediaGroup({ uid: item.uid, cover: coverUrls[item.uid] });
     });
 
     const coverImage = document.createElement("img");
     coverImage.className = "cover";
     container.appendChild(coverImage);
 
-    if (item.has_cover) {
-        coverImage.src = getCoverUrl(item.uid);
+    if (coverUrls[item.uid] == undefined) {
+        getAnyCoverUrl(item).then((url) => {
+            coverUrls[item.uid] = url;
+            coverImage.src = url;
+        });
     } else {
-        fetchCoverUrl(item.name, "w342").then((url) => coverImage.src = url);
+        coverImage.src = coverUrls[item.uid];
     }
 
     const title = document.createElement("span");
@@ -76,3 +82,10 @@ function createMediaListItem(item: IndexListItem) {
     return container;
 }
 
+async function getAnyCoverUrl(item: IndexListItem): Promise<string> {
+    if (item.has_cover) {
+        return getCoverUrl(item.uid);
+    } else {
+        return fetchCoverUrl(item.name, "w500");
+    }
+}

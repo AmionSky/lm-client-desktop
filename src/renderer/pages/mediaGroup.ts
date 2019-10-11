@@ -1,13 +1,17 @@
 import { replacePage, getJsonFromUrl, getCoverUrl, getGroupUrl } from "../common";
 import { onFetchError } from "./error";
 import { startPlayer } from "../player";
-import { fetchCoverUrl } from "../themoviedb";
-import { IndexListItem } from "./mediaList";
 import electronStore from "electron-store";
 
 require("./mediaGroup.css");
 
 const store = new electronStore();
+
+
+export interface MediaGroupArgs {
+    uid: string,
+    cover: string,
+}
 
 interface GroupResponse {
     videos: VideoDetails[],
@@ -17,8 +21,9 @@ interface VideoDetails {
     name: string,
 }
 
-export async function showMediaGroup(item: IndexListItem) {
-    const json: GroupResponse = await getJsonFromUrl(getGroupUrl(item.uid)).catch(() => undefined);
+
+export async function showMediaGroup(args: MediaGroupArgs) {
+    const json: GroupResponse = await getJsonFromUrl(getGroupUrl(args.uid)).catch(() => undefined);
 
     if (json == undefined) {
         onFetchError();
@@ -26,8 +31,8 @@ export async function showMediaGroup(item: IndexListItem) {
     }
 
     const grid = document.createElement("div");
-    grid.appendChild(createCoverDisplay(item));
-    grid.appendChild(createVideoList(item.uid, json.videos));
+    grid.appendChild(createCoverDisplay(args.cover));
+    grid.appendChild(createVideoList(args.uid, json.videos));
     grid.id = "mg-grid";
     replacePage(grid, 0);
 }
@@ -88,16 +93,10 @@ function getTitle(index: number, videoName: string) {
     return (index + 1) + ". " + title;
 }
 
-function createCoverDisplay(item: IndexListItem) {
+function createCoverDisplay(coverUrl: string) {
     const leftContainer = document.createElement("div");
-
-    if (item.has_cover) {
-        leftContainer.style.backgroundImage = "url(\"" + getCoverUrl(item.uid) + "\")";
-    } else {
-        fetchCoverUrl(item.name, "w780").then((url) => leftContainer.style.backgroundImage = "url(\"" + url + "\")");
-    }
-
     leftContainer.appendChild(createShadowElement());
+    leftContainer.style.backgroundImage = "url(\"" + coverUrl + "\")";
     leftContainer.id = "mg-cover";
     return leftContainer;
 }
