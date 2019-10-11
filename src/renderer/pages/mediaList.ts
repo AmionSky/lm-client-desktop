@@ -51,6 +51,7 @@ export async function showMediaList() {
     }
 
     replacePage(listElement, scrollPosition);
+    scrollPosition = 0;
 }
 
 function createMediaListItem(item: IndexListItem) {
