@@ -72,6 +72,11 @@ function createMediaItem(index: number, groupId: string, details: VideoDetails) 
         container.className += " mg-videos-item-watched";
     }
 
+    const seqnum = document.createElement("span");
+    seqnum.textContent = (index + 1) + "";
+    seqnum.className = "seqnum";
+    container.appendChild(seqnum);
+
     const title = document.createElement("span");
     title.textContent = getTitle(index, details.name);
     title.className = "title";
@@ -86,7 +91,7 @@ function getTitle(index: number, videoName: string) {
     if (extIndex > 0) {
         title = title.substring(0, extIndex);
     }
-    return (index + 1) + ". " + title;
+    return title;
 }
 
 function createCoverDisplay(uid: string) {
