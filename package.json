@@ -19,21 +19,21 @@
         "package:linux": "electron-packager dist lm-client-lnx64 --asar --out=packages --platform=linux --arch=x64 --overwrite"
     },
     "devDependencies": {
-        "@babel/core": "^7.9.0",
+        "@babel/core": "^7.9.6",
         "@babel/plugin-proposal-class-properties": "^7.8.3",
-        "@babel/preset-env": "^7.9.5",
+        "@babel/preset-env": "^7.9.6",
         "@babel/preset-typescript": "^7.9.0",
         "@types/temp": "^0.8.34",
         "@types/url-join": "^4.0.0",
         "babel-loader": "^8.1.0",
         "copy-webpack-plugin": "^5.0.5",
-        "css-loader": "^3.5.2",
-        "electron": "^8.2.3",
+        "css-loader": "^3.5.3",
+        "electron": "^8.2.5",
         "electron-packager": "^14.2.1",
-        "style-loader": "^1.1.4",
-        "terser-webpack-plugin": "^2.3.5",
+        "style-loader": "^1.2.1",
+        "terser-webpack-plugin": "^2.3.6",
         "typescript": "^3.8.3",
-        "webpack": "^4.42.1",
+        "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11"
     },
     "dependencies": {
