@@ -1,6 +1,6 @@
 {
-    "name": "shared-media-browser",
-    "productName": "Shared Media Browser",
+    "name": "lm-client",
+    "productName": "Local Media Client",
     "version": "1.0.0",
     "main": "main/main.js"
 }

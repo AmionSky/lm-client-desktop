@@ -2,3 +2,7 @@
 /dist
 /packages
 /package-lock.json
+
+# Final build folders
+/build/builds
+/build/packages
