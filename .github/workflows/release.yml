@@ -1,7 +1,9 @@
 name: Release Pre-Built packages
 
 # Controls when the action will run.
-on: release
+on:
+  release:
+    types: [created]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,10 +24,14 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Build the packages
-      run: pwsh build/build.ps1
-
-    # Runs a set of commands using the runners shell
-    #- name: Run a multi-line script
-    #  run: |
-    #    echo Add other actions to build,
-    #    echo test, and deploy your project.
+      run: |
+        cd build
+        pwsh build.ps1
+    
+    # Upload packages to the release
+    - name: Upload to Release
+      uses: JasonEtco/upload-to-release@v0.1.1
+      with:
+        args: build/packages/lm-client-win-x64.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
