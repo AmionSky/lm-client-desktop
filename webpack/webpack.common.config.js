@@ -1,8 +1,8 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
-const node = "12.4.0";
-const chrome = "76";
+const node = "12.14.1";
+const chrome = "83";
 
 exports.config = {
     node: {
@@ -83,9 +83,11 @@ exports.rendererConfig = {
         ]
     },
     plugins: [
-        new CopyPlugin([
-            { from: 'src/static/', to: '../static/' },
-            { from: 'src/fonts/', to: '../fonts/' }
-        ]),
+        new CopyPlugin({
+            patterns: [
+                { from: 'src/static/', to: '../static/' },
+                { from: 'src/fonts/', to: '../fonts/' }
+            ]
+        }),
     ],
 }

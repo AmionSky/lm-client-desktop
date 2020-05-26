@@ -24,19 +24,19 @@
         "@types/temp": "^0.8.34",
         "@types/url-join": "^4.0.0",
         "babel-loader": "^8.1.0",
-        "copy-webpack-plugin": "^5.0.5",
+        "copy-webpack-plugin": "^6.0.0",
         "css-loader": "^3.5.3",
-        "electron": "^8.2.5",
+        "electron": "^9.0.0",
         "electron-packager": "^14.2.1",
         "style-loader": "^1.2.1",
-        "terser-webpack-plugin": "^2.3.6",
-        "typescript": "^3.8.3",
+        "terser-webpack-plugin": "^3.0.0",
+        "typescript": "^3.9.3",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11"
     },
     "dependencies": {
         "electron-store": "^5.1.1",
-        "open": "^6.4.0",
+        "open": "^7.0.0",
         "temp": "^0.9.1",
         "url-join": "^4.0.1"
     }
