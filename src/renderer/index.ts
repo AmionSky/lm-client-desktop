@@ -1,6 +1,7 @@
 import { showMediaList } from "./pages/mediaList";
 import { removeTempFiles } from "./player";
-import { remote } from "electron";
+import { ipcRenderer } from "electron";
+import { IpcMessages, WindowActions } from "../shared/messages";
 
 require("./index.css");
 
@@ -12,29 +13,21 @@ window.onload = () => {
     });
 
     document.getElementById("window-minimize-button").addEventListener("click", () => {
-        let window = remote.getCurrentWindow();
-        window.minimize();
+        ipcRenderer.send(IpcMessages.WindowAction, WindowActions.Minimaze);
     });
 
     document.getElementById("window-maximize-button").addEventListener("click", () => {
-        let window = remote.getCurrentWindow();
-        if (!window.isMaximized()) {
-            window.maximize();
-        } else {
-            window.unmaximize();
-        }
+        ipcRenderer.send(IpcMessages.WindowAction, WindowActions.Maximaze);
     });
 
     document.getElementById("window-close-button").addEventListener("click", () => {
         removeTempFiles();
-        let window = remote.getCurrentWindow();
-        window.close();
+        ipcRenderer.send(IpcMessages.WindowAction, WindowActions.Close);
     });
 
     showMediaList();
 }
 
 function getWindowTitle(): string {
-    let window = remote.getCurrentWindow();
-    return window.getTitle();
+    return ipcRenderer.sendSync(IpcMessages.WindowTitle);
 }

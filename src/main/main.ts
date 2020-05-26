@@ -1,8 +1,9 @@
 import { app, BrowserWindow } from "electron";
 import { globalShortcut } from "electron";
 import * as path from "path";
+import { windowActions } from "./ipc";
 
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+//process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -16,14 +17,15 @@ function createWindow() {
         minHeight: 300,
         frame: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         }
     });
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, "../static/index.html"));
 
-    // Open the DevTools.
+    windowActions(mainWindow);
     devTools(mainWindow);
 
     // Emitted when the window is closed.
