@@ -87,7 +87,7 @@ Write-Output = "Compressing packages for distribution..."
 $packages = Get-ChildItem -Path "./builds" -Attributes Directory -Name
 foreach ($package in $packages) {
     if ($package.ToString().Contains("-linux-")) {
-        $process = (Start-Process -FilePath "tar" -ArgumentList "-czvf `"./packages/$package.tar.gz`" `"./builds/$package`"" -Wait -NoNewWindow -PassThru)
+        $process = (Start-Process -FilePath "tar" -ArgumentList "-czvf `"./packages/$package.tar.gz`" -C `"./builds/$package`" ." -Wait -NoNewWindow -PassThru)
         if ($process.ExitCode -gt 0) {
             Write-Error -ErrorId "archive-tar-failed" -Message "Tar compression failed"
             Exit 5
