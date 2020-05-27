@@ -1,70 +1,67 @@
 name: Upload pre-built packages to release
 
-# Controls when the action will run.
 on:
   release:
     types: [created]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    name: Build Packages
-    
-    # The type of runner that the job will run on
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux
+          - os: windows-latest
+            target: win
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    name: Build Packages for ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Check-out
-      uses: actions/checkout@v2
-    
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.2
-      with:
-        node-version: 12.x
+      - name: Check-out
+        uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Build the packages
-      run: |
-        cd build
-        pwsh build.ps1
-        
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: built-packages
-        path: build/packages/
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 12.x
+
+      - name: Build the packages
+        run: |
+          cd build
+          pwsh build.ps1 ${{ matrix.target }}
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: built-packages-${{ matrix.target }}
+          path: build/packages/
 
   upload:
-    name: Upload packages to Release
+    strategy:
+      matrix:
+        arch: [x86, x64]
+        include:
+          - target: linux
+            ext: tar.gz
+            mime: application/gzip
+          - target: win
+            ext: zip
+            mime: application/zip
+
+    name: Upload ${{ matrix.target }}-${{ matrix.arch }} to Release
     runs-on: ubuntu-latest
     needs: [build]
-    
-    steps:
-    - name: Download Build Artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: built-packages
 
-    # Upload packages to the release
-    - name: Upload to Release - Win-x64
-      uses: JasonEtco/upload-to-release@v0.1.1
-      with:
-        args: lm-client-win-x64.zip application/zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Upload to Release - Win-x86
-      uses: JasonEtco/upload-to-release@v0.1.1
-      with:
-        args: lm-client-win-x86.zip application/zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Upload to Release - Linux-x64
-      uses: JasonEtco/upload-to-release@v0.1.1
-      with:
-        args: lm-client-linux-x64.zip application/zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Download Build Artifacts ${{ matrix.target }}
+        uses: actions/download-artifact@v2
+        with:
+          name: built-packages-${{ matrix.target }}
+
+      - name: Upload to Release - ${{ matrix.target }}-${{ matrix.arch }}
+        uses: JasonEtco/upload-to-release@v0.1.1
+        with:
+          args: lm-client-${{ matrix.target }}-${{ matrix.arch }}.${{ matrix.ext }} ${{ matrix.mime }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

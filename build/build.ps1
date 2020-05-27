@@ -1,3 +1,21 @@
+# Setup
+[System.Collections.ArrayList]$targets = @()
+if ($args.Count -ne 0) {
+    if ($args.Contains("win")) {
+        $targets.Add(@{ os = "win32"; arch = "x64" }) > $null
+        $targets.Add(@{ os = "win32"; arch = "ia32" }) > $null
+    }
+    if ($args.Contains("linux")) {
+        $targets.Add(@{ os = "linux"; arch = "x64" }) > $null
+        $targets.Add(@{ os = "linux"; arch = "ia32" }) > $null
+    }
+}
+else {
+    Write-Error -ErrorId "no-args" -Message "Please specify the build target!"
+    Exit 10
+}
+
+# Start
 Write-Output "Creating builds..."
 
 # Check if we are running in the correct directory
@@ -38,11 +56,6 @@ Copy-Item -Path "../src/package.json" -Destination "../dist/package.json" -Force
 
 # Create electron packages
 Write-Output "Creating electron packages..."
-$targets = @(
-    @{ os = "win32"; arch = "x64" }
-    @{ os = "win32"; arch = "ia32" }
-    @{ os = "linux"; arch = "x64" }
-)
 
 foreach ($target in $targets) {
     $args = "dist lm-client --asar --out=build/builds --platform=$($target.os) --arch=$($target.arch) --overwrite"
@@ -73,7 +86,16 @@ New-Item -Path "./packages" -ItemType Directory > $null
 Write-Output = "Compressing packages for distribution..."
 $packages = Get-ChildItem -Path "./builds" -Attributes Directory -Name
 foreach ($package in $packages) {
-    Compress-Archive -Path "./builds/$package/*" -DestinationPath "./packages/$package.zip" -CompressionLevel Optimal
+    if ($package.ToString().Contains("-linux-")) {
+        $process = (Start-Process -FilePath "tar" -ArgumentList "-czvf `"./packages/$package.tar.gz`" `"./builds/$package`"" -Wait -NoNewWindow -PassThru)
+        if ($process.ExitCode -gt 0) {
+            Write-Error -ErrorId "archive-tar-failed" -Message "Tar compression failed"
+            Exit 5
+        }
+    }
+    else {
+        Compress-Archive -Path "./builds/$package/*" -DestinationPath "./packages/$package.zip" -CompressionLevel Optimal
+    }
 }
 
 # Done

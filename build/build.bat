@@ -1,2 +1,2 @@
 @ECHO OFF
-pwsh .\build.ps1 || (PAUSE && EXIT /B 1)
+pwsh .\build.ps1 win || (PAUSE && EXIT /B 1)
