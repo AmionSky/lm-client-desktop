@@ -40,14 +40,15 @@ jobs:
   upload:
     strategy:
       matrix:
+        target: [win, linux]
         arch: [x86, x64]
         include:
-          - target: linux
-            ext: tar.gz
-            mime: application/gzip
           - target: win
             ext: zip
             mime: application/zip
+          - target: linux
+            ext: tar.gz
+            mime: application/gzip
 
     name: Upload ${{ matrix.target }}-${{ matrix.arch }} to Release
     runs-on: ubuntu-latest
