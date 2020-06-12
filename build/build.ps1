@@ -58,8 +58,8 @@ Copy-Item -Path "../src/package.json" -Destination "../dist/package.json" -Force
 Write-Output "Creating electron packages..."
 
 foreach ($target in $targets) {
-    $args = "dist lm-client --asar --out=build/builds --platform=$($target.os) --arch=$($target.arch) --overwrite"
-    $process = (Start-Process -FilePath "npm" -WorkingDirectory ".." -ArgumentList "run packager -- $args" -Wait -NoNewWindow -PassThru)
+    $pargs = "dist lm-client --asar --out=build/builds --platform=$($target.os) --arch=$($target.arch) --overwrite"
+    $process = (Start-Process -FilePath "npm" -WorkingDirectory ".." -ArgumentList "run packager -- $pargs" -Wait -NoNewWindow -PassThru)
     if ($process.ExitCode -gt 0) {
         Write-Error -ErrorId "package-build-failed" -Message "Electron packaging failed"
         Exit 4
